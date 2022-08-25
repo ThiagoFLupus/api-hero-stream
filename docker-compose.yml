@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  api-heroes:
+    container_name: api-heroes
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    ports: 
+      - 5100:5000
+    restart: always
+    volumes:
+     - .:/var/www
