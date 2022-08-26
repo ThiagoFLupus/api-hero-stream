@@ -172,8 +172,8 @@ def updateAuth():
         
     return json.dumps(dataResponse), statusResponse, headers
 
-@app.route('/api/video/<id>', methods=['GET'])
-def getVideo(id):
+@app.route('/api/video/<id>/<typeAuth>/<token>', methods=['GET'])
+def getVideo(id, typeAuth, token):
     statusResponse = '200'
     dataResponse = {
         'message': 'success'
@@ -181,12 +181,13 @@ def getVideo(id):
     headersVideo = {
 
     }
-    if id:
+
+    if id and (typeAuth == 'Bearer') and (token == 'FKFJ446FdffgsKG9080990FDG09F8G0904'):
         def read_file_chunks(path, startRange, endRange):
             with open(path, 'rb') as fd:
                 while 1:                   
                     fd.seek(startRange)
-                    buf = fd.read()
+                    buf = fd.read(endRange)
                     if buf:
                         yield buf
                     else:
@@ -200,10 +201,6 @@ def getVideo(id):
                 fp = "./files/video.mp4"
             elif id == '0' or id == '3' or id == '9' or id == '12':
                 fp = "./files/video2.mp4"
-
-            print("************")
-            print(id)
-            print(fp)
 
             if rangeHeader:
                 sizeVideo = os.stat(fp).st_size
